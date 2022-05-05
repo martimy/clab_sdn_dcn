@@ -1,0 +1,65 @@
+name: sdn-dcn
+
+topology:
+  nodes:
+    ctrl:
+      kind: linux
+      image: martimy/ryu-flowmanager
+      publish:
+        - tcp/8080
+      exec:
+        - ip addr add 10.0.0.1/24 dev eth1
+#        - ryu-manager flowmanager/flowmanager.py --verbose
+    h11:
+      kind: linux
+      image: wbitt/network-multitool:alpine-minimal
+      exec:
+        - ip addr add 192.168.11.1/24 dev eth1
+    h12:
+      kind: linux
+      image: wbitt/network-multitool:alpine-minimal
+      exec:
+        - ip addr add 192.168.12.1/24 dev eth1
+    h21:
+      kind: linux
+      image: wbitt/network-multitool:alpine-minimal
+      exec:
+        - ip addr add 192.168.21.1/24 dev eth1
+    h22:
+      kind: linux
+      image: wbitt/network-multitool:alpine-minimal
+      exec:
+        - ip addr add 192.168.22.1/24 dev eth1
+    h31:
+      kind: linux
+      image: wbitt/network-multitool:alpine-minimal
+      exec:
+        - ip addr add 192.168.31.1/24 dev eth1
+    h32:
+      kind: linux
+      image: wbitt/network-multitool:alpine-minimal
+      exec:
+        - ip addr add 192.168.32.1/24 dev eth1
+# The switches must be created manually before running clab
+    br0:
+      kind: ovs-bridge
+    spine1:
+      kind: ovs-bridge
+    spine2:
+      kind: ovs-bridge
+    leaf1:
+      kind: ovs-bridge
+    leaf2:
+      kind: ovs-bridge
+    leaf3:
+      kind: ovs-bridge
+# Link hosts to switches. Inter-switch links are 
+# created using a shell script
+  links:
+    - endpoints: ["ctrl:eth1", "br0:p0"]
+    - endpoints: ["h11:eth1", "leaf1:p1"]
+    - endpoints: ["h12:eth1", "leaf1:p2"]
+    - endpoints: ["h21:eth1", "leaf2:p3"]
+    - endpoints: ["h22:eth1", "leaf2:p4"]
+    - endpoints: ["h31:eth1", "leaf3:p5"]
+    - endpoints: ["h32:eth1", "leaf3:p6"]
