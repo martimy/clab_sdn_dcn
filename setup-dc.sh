@@ -8,7 +8,7 @@ ovs-vsctl --may-exist add-br leaf1
 ovs-vsctl --may-exist add-br leaf2
 ovs-vsctl --may-exist add-br leaf3
 
-echo Set bridge MAC address (or comment for random addresses)
+echo Set bridge MAC address, or comment for random addresses
 ovs-vsctl set bridge spine1 other-config:hwaddr=00:00:00:00:00:01
 ovs-vsctl set bridge spine2 other-config:hwaddr=00:00:00:00:00:02
 ovs-vsctl set bridge leaf1 other-config:hwaddr=00:00:00:00:00:03
