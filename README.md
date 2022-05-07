@@ -79,7 +79,8 @@ Replace user@remotehost with the username and address of your host machine.
 
 The --observe-links used above, allows the controller to discover the topology using LLDP. The FlowManager manager will show the topology as in the next figure:
 
-![](img/fm.png)![](img/fm2.png)
+![](img/fm.png)
+![](img/fm2.png)
 
 To stop the controller:
 
