@@ -4,12 +4,22 @@ This lab creates a software-defined data centre network using spine-leaf archite
 
 ![](img/sddcn.png)
 
+
+# Requirements
+
+To use this lab, you need to install containerlab. You also need to have basic familiarity with Docker.
+
+This lab uses the following Docker images (they will be pulled automatically when you start the lab):
+
+- martimy/ryu-flowmanager:latest — includes a [Ryu](https://github.com/faucetsdn/ryu) controller and [FlowManager](https://github.com/martimy/flowmanager).
+- wbitt/network-multitool:alpine-minimal — a Linux with simple tools
+
 ## Starting and ending the lab
 
 You must create the switches first, then deploy the lab:
 
 ```
-sudo ./setup-bridges.sh
+sudo ./setup-dc.sh
 sudo clab deploy -t sdn-dcn.clab.yml
 ```
 
@@ -23,7 +33,7 @@ To end the lab
 
 ```
 sudo clab destroy -t sdn-dcn.clab.yml --cleanup
-sudo ./reset-bridges.sh
+sudo ./reset-dc.sh
 ```
 
 ## Try this
