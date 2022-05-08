@@ -6,9 +6,7 @@ This lab creates a software-defined data centre network using spine-leaf archite
 
 ## Requirements
 
-To use this lab, you need to install containerlab. You also need to have basic familiarity with Docker.
-
-This lab uses the following Docker images (they will be pulled automatically when you start the lab):
+To use this lab, you need to install containerlab on Linux. You also need to have basic familiarity with Docker. This lab uses the following Docker images (they will be pulled automatically when you start the lab):
 
 - martimy/ryu-flowmanager:latest — includes a [Ryu](https://github.com/faucetsdn/ryu) controller and [FlowManager](https://github.com/martimy/flowmanager).
 - wbitt/network-multitool:alpine-minimal — a Linux with simple tools
@@ -16,16 +14,15 @@ This lab uses the following Docker images (they will be pulled automatically whe
 
 ## How does it work?
 
-This lab builds an SDN network using [Open vSwitch](https://www.openvswitch.org/) (OVS) and [Docker](https://www.docker.com/) containers. These components are "glued" together using [containerlab](https://containerlab.dev/).
+This lab builds an SDN using [Open vSwitch](https://www.openvswitch.org/) (OVS) and [Docker](https://www.docker.com/) containers. These components are "glued" together using [containerlab](https://containerlab.dev/).
 
-The Open vSwitch is an open-source virtual switch that is included in many Linux distribution. OVS is designed to work as a standalone switch that supports many standard management interfaces and protocols. OVS can also work as an SDN switch supporting OpenFlow protocol.
+The Open vSwitch is an open-source virtual switch that is included in many Linux distributions. OVS is designed to work as a standalone switch that supports many standard management interfaces and protocols. OVS can also work as an SDN switch supporting OpenFlow protocol.
 
-As an OpenFlow switch, on OVS needs an SDN controller. In this lab, the SDN controller used is [Ryu](https://ryu-sdn.org/). Ryu is installed in a Docker image along with FlowManager app, which provides a GUI access to the switches.
+As an OpenFlow switch, the OVS needs an SDN controller. The SDN controller used in this lab is [Ryu](https://ryu-sdn.org/). Ryu is installed in a Docker image along with FlowManager app, which provides a GUI access to the switches.
 
-To emulate hosts in the data center, the lab includes a Docker image with pre-installed tools for testing.
+Hosts in the data center are emulated using a Docker image with pre-installed tools for testing.
 
-Containerlab provides mechanisms to start Docker containers, build virtual topologies, and managing their lifecycle. A lab structure is provided in a YAML file that includes the containers to be deployed and their connections. However, containerlab, cannot create bridges (standard or OVS) other than the management bridge. Therefore, the bridges in this lab must be created externally using a shell script before deploy the containerlab topology. Also, another shell script is required to delete all bridges at the end of the lab.
-
+Containerlab provides mechanisms to start Docker containers, build virtual topologies, and manage their lifecycle. A lab structure is provided in a YAML file that includes the containers to be deployed and their connections. However, containerlab, cannot create bridges (standard or OVS) other than the management bridge. Therefore, the bridges in this lab must be created externally using a shell script before deploying the containerlab topology. Also, another shell script is required to delete all bridges at the end of the lab.
 
 ## Starting and ending the lab
 
@@ -36,13 +33,13 @@ sudo ./setup-dc.sh
 sudo clab deploy -t sdn-dcn.clab.yml
 ```
 
-Run Ryu controller with any number of apps. This example shows how to start the FlowManager app that allows you to populate the flow tables manually.
+(optional) OVS will assign ports numbers sequentially in the order links are defined in the setup-dc.sh and the sdn-dcn.clab.yml. To ensure port numbers are consistent, you may want to request port number change.
 
 ```
-docker exec clab-sdn-dcn-ctrl ryu-manager flowmanager/flowmanager.py --verbose
+sudo ./num-ports.sh
 ```
 
-To end the lab
+To end the lab:
 
 ```
 sudo clab destroy -t sdn-dcn.clab.yml --cleanup
@@ -51,10 +48,11 @@ sudo ./reset-dc.sh
 
 ## Try this
 
-After starting the lab as above, start the Ryu controller and the FlowManager:
+After starting the lab as above, start the Ryu controller and the FlowManager. The example below shows how to start the FlowManager app that allows you to populate the flow tables manually.
+
 
 ```
-$ docker exec -d clab-sdn-dcn-ctrl ryu-manager flowmanager/flowmanager.py --observe-links
+$ docker exec -d clab-sdn-dcn-ctrl ryu-manager flowmanager/flowmanager.py --verbose --observe-links
 ```
 
 Confirm that all switches are connected to the controller:
@@ -86,7 +84,6 @@ To stop the controller:
 ```
 $ docker exec clab-sdn-dcn-ctrl killall ryu-manager
 ```
-
 
 Note that you need to run an app to populate the switch flow tables or do it manually using FlowManager. In any case, you should be able to ping from one host to another using the following commands:
 
