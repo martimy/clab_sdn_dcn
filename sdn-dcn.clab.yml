@@ -10,6 +10,7 @@ topology:
     ctrl:
       kind: linux
       image: martimy/ryu-flowmanager
+#      image: martimy/sdn-shortestpath
       mgmt_ipv4: 172.10.10.10
       binds:
         - /home/vagrant/exp/sdnlab/labs/:/home/auser/labs
@@ -22,36 +23,42 @@ topology:
       image: wbitt/network-multitool:alpine-minimal
       mgmt_ipv4: 172.10.10.11
       exec:
+        - ip link set dev eth1 address 00:00:00:00:00:01
         - ip addr add 192.168.11.1/24 dev eth1
     h12:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
       mgmt_ipv4: 172.10.10.12
       exec:
+        - ip link set dev eth1 address 00:00:00:00:00:02
         - ip addr add 192.168.11.2/24 dev eth1
     h21:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
       mgmt_ipv4: 172.10.10.21
       exec:
+        - ip link set dev eth1 address 00:00:00:00:00:03
         - ip addr add 192.168.11.3/24 dev eth1
     h22:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
       mgmt_ipv4: 172.10.10.22
       exec:
+        - ip link set dev eth1 address 00:00:00:00:00:04
         - ip addr add 192.168.11.4/24 dev eth1
     h31:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
       mgmt_ipv4: 172.10.10.31
       exec:
-        - ip addr add 192.168.11.5/24 dev eth1
+       - ip link set dev eth1 address 00:00:00:00:00:05
+       - ip addr add 192.168.11.5/24 dev eth1
     h32:
       kind: linux
       mgmt_ipv4: 172.10.10.32
       image: wbitt/network-multitool:alpine-minimal
       exec:
+        - ip link set dev eth1 address 00:00:00:00:00:06
         - ip addr add 192.168.11.6/24 dev eth1
 # The switches must be created manually before running clab
     spine1:
