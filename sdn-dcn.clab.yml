@@ -13,7 +13,7 @@ topology:
 #      image: martimy/sdn-shortestpath
       mgmt_ipv4: 172.10.10.10
       binds:
-        - /home/vagrant/exp/sdnlab/labs/:/home/auser/labs
+        - config:/home/auser/labs
       publish:
         - tcp/8080
 #      exec:

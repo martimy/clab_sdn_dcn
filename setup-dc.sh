@@ -8,11 +8,11 @@ ovs-vsctl --may-exist add-br leaf2
 ovs-vsctl --may-exist add-br leaf3
 
 echo Set MAC address, or comment for random addresses
-ovs-vsctl set bridge spine1 other-config:hwaddr=00:00:00:00:01:01
-ovs-vsctl set bridge spine2 other-config:hwaddr=00:00:00:00:01:02
-ovs-vsctl set bridge leaf1 other-config:hwaddr=00:00:00:00:01:03
-ovs-vsctl set bridge leaf2 other-config:hwaddr=00:00:00:00:01:04
-ovs-vsctl set bridge leaf3 other-config:hwaddr=00:00:00:00:01:05
+ovs-vsctl set bridge spine1 other-config:hwaddr=00:00:00:00:00:0B
+ovs-vsctl set bridge spine2 other-config:hwaddr=00:00:00:00:00:0C
+ovs-vsctl set bridge leaf1 other-config:hwaddr=00:00:00:00:00:15
+ovs-vsctl set bridge leaf2 other-config:hwaddr=00:00:00:00:00:16
+ovs-vsctl set bridge leaf3 other-config:hwaddr=00:00:00:00:00:17
 
 echo Connect switches
 ovs-vsctl add-port spine1 sl_11 -- set interface sl_11 type=patch options:peer=ls_11
