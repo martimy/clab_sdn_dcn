@@ -48,6 +48,8 @@ sudo ./reset-dc.sh
 
 ## Try this
 
+### Starting the controller
+
 After starting the lab as above, start the Ryu controller and the FlowManager. The example below shows how to start the FlowManager app that allows you to populate the flow tables manually.
 
 
@@ -85,7 +87,19 @@ To stop the controller:
 $ docker exec clab-sdn-dcn-ctrl killall ryu-manager
 ```
 
-Note that you need to run an app to populate the switch flow tables or do it manually using FlowManager. In any case, you should be able to ping from one host to another using the following commands:
+### Running an SDN app
+
+Note that you need to run an app to populate the switch flow tables or do it manually using FlowManager. This lab includes a simple app that installs flow entries in the switches to forward packets between each pair of nodes.
+
+To run the app with FlowManager:
+
+```
+$ docker exec -it clab-sdn-dcn-ctrl ryu-manager flowmanager/flowmanager.py labs/spine_leaf_1.py
+```
+
+Direct your browser to http://localhost:8080/home/ as described above and observe the flow entries in each switch.
+
+Ping from any one host to another:
 
 ```
 $ docker exec -it clab-sdn-dcn-h11 ping 192.168.11.3
@@ -99,4 +113,20 @@ PING 192.168.11.3 (192.168.11.3) 56(84) bytes of data.
 --- 192.168.11.3 ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 4090ms
 rtt min/avg/max/mdev = 0.087/0.160/0.419/0.129 ms
+```
+
+Observe the change in the flow tables in the switches.
+
+### Using Wireshark
+
+You can use Wireshark to monitor traffic on any host interface in the network. For example, if you want to monitor OpenFlow traffic in and of the controller:
+
+```
+sudo ip netns exec clab-sdn-dcn-ctrl tcpdump -U -nni eth0 -w -" | wireshark -k -i -
+```
+
+Or remotely:
+
+```
+>ssh -p 2222 user@remotehost "sudo -S ip netns exec clab-sdn-dcn-ctrl tcpdump -U -nni eth0 -w -" | wireshark -k -i -
 ```
