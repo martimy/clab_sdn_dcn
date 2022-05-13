@@ -130,3 +130,23 @@ Or remotely:
 ```
 >ssh -p 2222 user@remotehost "sudo -S ip netns exec clab-sdn-dcn-ctrl tcpdump -U -nni eth0 -w -" | wireshark -k -i -
 ```
+
+
+### Using sFlow
+
+You can enable sFlow by uncommenting the sFlow configuration lines in setup-dc.sh nd sdn-dcn.yml files. This will install/deploy sflowtrend tool, which allows you to view sflow data sent from the switches. Direct you browser to http:/localhost:8087 on the host machine or to access remotely:
+
+```
+ssh -L 8087:172.10.10.100:8087 -p 2222 user@remotehost
+```
+
+## Useful Links
+
+- [Containerlab](https://containerlab.dev/)
+- [OpenFlow](https://opennetworking.org/software-defined-standards/specifications/)
+- [Ryu controller docs](https://ryu.readthedocs.io/en/latest/)
+- [Ryu controller code](https://github.com/faucetsdn/ryu)
+- [FlowManager](https://github.com/martimy/flowmanager)
+- [Open vSwitch](https://www.openvswitch.org/)
+- [sflow/open vswitch](https://docs.openvswitch.org/en/latest/howto/sflow/)
+- [sflowtrend Docker image](https://hub.docker.com/r/sflow/sflowtrend/)
