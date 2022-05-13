@@ -10,14 +10,22 @@ topology:
     ctrl:
       kind: linux
       image: martimy/ryu-flowmanager
-#      image: martimy/sdn-shortestpath
       mgmt_ipv4: 172.10.10.10
       binds:
         - config:/home/auser/labs
       publish:
         - tcp/8080
-#      exec:
-#        - ryu-manager flowmanager/flowmanager.py --verbose
+# Uncomment the following if you want to use sflow
+#    sflow:
+#      kind: linux
+#      image: sflow/sflowtrend
+#      mgmt_ipv4: 172.10.10.100
+#      publish:
+#        - udp/6343
+#        - tcp/8087
+#        - tcp/8443
+#      env:
+#        TZ: America/Halifax
     h11:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
