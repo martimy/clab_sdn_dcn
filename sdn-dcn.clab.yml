@@ -2,7 +2,7 @@ name: sdn-dcn
 
 # Define custom IPv4 subent for the management network 
 mgmt:
-  ipv4_subnet: 172.10.10.0/24
+  ipv4-subnet: 172.10.10.0/24
   ipv4-gw: 172.10.10.1
 
 topology:
@@ -10,7 +10,7 @@ topology:
     ctrl:
       kind: linux
       image: martimy/ryu-flowmanager
-      mgmt_ipv4: 172.10.10.10
+      mgmt-ipv4: 172.10.10.10
       binds:
         - config:/home/auser/labs
       publish:
@@ -29,41 +29,41 @@ topology:
     h11:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
-      mgmt_ipv4: 172.10.10.11
+      mgmt-ipv4: 172.10.10.11
       exec:
         - ip link set dev eth1 address 00:00:00:00:00:01
         - ip addr add 192.168.11.1/24 dev eth1
     h12:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
-      mgmt_ipv4: 172.10.10.12
+      mgmt-ipv4: 172.10.10.12
       exec:
         - ip link set dev eth1 address 00:00:00:00:00:02
         - ip addr add 192.168.11.2/24 dev eth1
     h21:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
-      mgmt_ipv4: 172.10.10.21
+      mgmt-ipv4: 172.10.10.21
       exec:
         - ip link set dev eth1 address 00:00:00:00:00:03
         - ip addr add 192.168.11.3/24 dev eth1
     h22:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
-      mgmt_ipv4: 172.10.10.22
+      mgmt-ipv4: 172.10.10.22
       exec:
         - ip link set dev eth1 address 00:00:00:00:00:04
         - ip addr add 192.168.11.4/24 dev eth1
     h31:
       kind: linux
       image: wbitt/network-multitool:alpine-minimal
-      mgmt_ipv4: 172.10.10.31
+      mgmt-ipv4: 172.10.10.31
       exec:
        - ip link set dev eth1 address 00:00:00:00:00:05
        - ip addr add 192.168.11.5/24 dev eth1
     h32:
       kind: linux
-      mgmt_ipv4: 172.10.10.32
+      mgmt-ipv4: 172.10.10.32
       image: wbitt/network-multitool:alpine-minimal
       exec:
         - ip link set dev eth1 address 00:00:00:00:00:06
