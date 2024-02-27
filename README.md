@@ -48,14 +48,7 @@ sudo ./reset-dc.sh
 
 ## Try this
 
-### Starting the controller
-
-After starting the lab as above, start the Ryu controller and the FlowManager. The example below shows how to start the FlowManager app that allows you to populate the flow tables manually.
-
-
-```
-$ docker exec -d clab-sdn-dcn-ctrl ryu-manager flowmanager/flowmanager.py --verbose --observe-links
-```
+### Check the controller 
 
 Confirm that all switches are connected to the controller:
 
@@ -69,7 +62,7 @@ $ sudo ovs-vsctl show
 <remaining output omitted>
 ```
 
-To access the FlowManager GUI, direct your browser to http://localhost:8080/home/ from your host machine. If the host does not have a desktop or if you want to access it remotely use:
+To access the FlowManager GUI, direct your browser to http://172.10.10.10:8080/home/ from your host machine. If the host does not have a desktop or if you want to access it remotely use:
 
 ```
 ssh -L 8080:172.10.10.10:8080 -p 2222 user@remotehost
@@ -81,25 +74,12 @@ The --observe-links used above, allows the controller to discover the topology u
 
 ![IMG1](img/fm_view.png) ![IMG2](img/fm_topo.png)
 
-To stop the controller:
-
-```
-$ docker exec clab-sdn-dcn-ctrl killall ryu-manager
-```
 
 ### Running an SDN app
 
-Note that you need to run an app to populate the switch flow tables or do it manually using FlowManager. This lab includes a simple app that installs flow entries in the switches to forward packets between each pair of nodes.
+Note that the clab runs an app that populate the switchs' flow table by installing flow entries that forward packets between each pair of nodes. The app is loaded in with the flowmanager when the topology is deployed. 
 
-To run the app with FlowManager:
-
-```
-$ docker exec -it clab-sdn-dcn-ctrl ryu-manager flowmanager/flowmanager.py labs/spine_leaf_1.py
-```
-
-Direct your browser to http://localhost:8080/home/ as described above and observe the flow entries in each switch.
-
-Ping from any one host to another:
+To test connectivity, ping from any one host to another:
 
 ```
 $ docker exec -it clab-sdn-dcn-h11 ping 192.168.11.3
@@ -139,6 +119,17 @@ You can enable sFlow by uncommenting the sFlow configuration lines in setup-dc.s
 ```
 ssh -L 8087:172.10.10.100:8087 -p 2222 user@remotehost
 ```
+
+### Modifying the SDN App
+
+You can change the SDN app that controlles the network by modifying the ENTRYPOINT of the controller image in the YAML topology file:
+
+```
+entrypoint: ryu-manager flowmanager/flowmanager.py <app>
+```
+
+You must destory then deploy the topology again to apply the change (or use docker commands). However, I don't recommed using this lab to develop SDN applications. You may need different environment more sutiable for this purpose.
+
 
 ## Useful Links
 
