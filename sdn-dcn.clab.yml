@@ -9,12 +9,15 @@ topology:
   nodes:
     ctrl:
       kind: linux
-      image: martimy/ryu-flowmanager
+      image: martimy/ryu-flowmanager:latest
       mgmt-ipv4: 172.10.10.10
       binds:
         - config:/home/auser/labs
       publish:
         - tcp/8080
+# Modify the entry point for a differnt app
+      entrypoint: ryu-manager flowmanager/flowmanager.py labs/spine_leaf_1.py
+
 # Uncomment the following if you want to use sflow
 #    sflow:
 #      kind: linux
