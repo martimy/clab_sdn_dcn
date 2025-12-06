@@ -24,6 +24,8 @@ Hosts in the data center are emulated using a Docker image with pre-installed to
 
 Containerlab provides mechanisms to start Docker containers, build virtual topologies, and manage their lifecycle. A lab structure is provided in a YAML file that includes the containers to be deployed and their connections. However, containerlab, cannot create bridges (standard or OVS) other than the management bridge. Therefore, the bridges in this lab must be created externally using a shell script before deploying the containerlab topology. Also, another shell script is required to delete all bridges at the end of the lab.
 
+![Infographics](sdnlab_infographics.png)
+
 ## Starting and ending the lab
 
 You must create the switches first, then deploy the lab:
